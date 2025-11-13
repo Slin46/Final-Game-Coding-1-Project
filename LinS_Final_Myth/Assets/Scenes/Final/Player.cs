@@ -10,12 +10,22 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb2d;
     public float sprintSpeed = 8f;
     private Vector2 moveInput;
+    private float inputX;
+    private float inputY;
     public bool isSprinting;
 
     //jump variables
     public float jumpForce = 5f;
     private int jumpCount;
     public int maxJumps = 2;
+
+    //climbing variables
+    public float climbSpeed = 3f;
+    public LayerMask ladderLayer;
+    public Transform ladderCheckPos;
+    public float ladderCheckRadius = 0.2f;
+    public bool isClimbing;
+
 
     //ground variables
     public LayerMask groundLayer;
@@ -36,6 +46,8 @@ public class Player : MonoBehaviour
         {
             jumpCount = 0;
         }
+
+        Climbing();
     }
 
     //fixed update is not frame dependent it runs at scheduled intervals
@@ -60,6 +72,11 @@ public class Player : MonoBehaviour
     {
         Vector2 horizontalInput = context.ReadValue<Vector2>();
         moveInput = new Vector2(horizontalInput.x, 0f);
+
+        if(!isClimbing)
+        {
+            rb2d.linearVelocity = new Vector2(inputX * walkSpeed, rb2d.linearVelocity.y);
+        }
     }
 
     //bc there is no void it has to return 
@@ -109,5 +126,26 @@ public class Player : MonoBehaviour
         //if we are not pressing the sprint buttopn ("canceled")
         if (context.canceled) isSprinting = false;
 
+    }
+
+    public void Climbing()
+    {
+        //check if inside ladder area using an overlapcircle
+        bool onLadder = Physics2D.OverlapCircle(ladderCheckPos.position, ladderCheckRadius, ladderLayer);
+
+        //if its on ladder above .1, player is climbing 
+        if (onLadder && Mathf.Abs(inputY) > 0.1f)
+        {
+            isClimbing = true;
+            rb2d.gravityScale = 0f;
+            rb2d.linearVelocity = new Vector2(rb2d.linearVelocity.x, inputY * climbSpeed);
+        }
+        else if (isClimbing && !onLadder)
+        {
+            //leaving the ladder
+            isClimbing = false;
+            //normal gravity
+            rb2d.gravityScale = 4f;
+        }
     }
 }
