@@ -47,36 +47,34 @@ public class Player : MonoBehaviour
             jumpCount = 0;
         }
 
+        if (!isClimbing && rb2d.gravityScale == 0)
+        {
+            rb2d.gravityScale = 4f;
+        }
+
         Climbing();
+
     }
 
     //fixed update is not frame dependent it runs at scheduled intervals
     private void FixedUpdate()
     {
-        //local var for current speed
-        float currentSpeed;
-        //if we are sprinting (pressing left shift) change speed to sprint speed
-        if (isSprinting)
-        {
-            currentSpeed = sprintSpeed;
-        }
-        else
-        {
-            //if we are not pressing shift change it back to walk speed
-            currentSpeed = walkSpeed;
-        }
-        rb2d.linearVelocity = new Vector2(moveInput.x * walkSpeed, rb2d.linearVelocity.y);
+        //currend speed is not sprinting then walk speed
+        float currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
+
+    if (!isClimbing)
+    {
+        rb2d.linearVelocity = new Vector2(moveInput.x * currentSpeed, rb2d.linearVelocity.y);
+    }
     }
 
     public void Move(InputAction.CallbackContext context)
     {
-        Vector2 horizontalInput = context.ReadValue<Vector2>();
-        moveInput = new Vector2(horizontalInput.x, 0f);
+        Vector2 input = context.ReadValue<Vector2>();
+        inputX = input.x;
+        inputY = input.y;
 
-        if(!isClimbing)
-        {
-            rb2d.linearVelocity = new Vector2(inputX * walkSpeed, rb2d.linearVelocity.y);
-        }
+        moveInput = new Vector2(inputX, 0f);
     }
 
     //bc there is no void it has to return 
@@ -97,12 +95,6 @@ public class Player : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        //this is for if u only want the player to jump once and only when they are on the ground
-        /*if (isGrounded())
-        {
-            rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }*/
-
         //if we are pressing space
         if (context.performed)
         {
@@ -130,21 +122,34 @@ public class Player : MonoBehaviour
 
     public void Climbing()
     {
-        //check if inside ladder area using an overlapcircle
+        //check ladder position. radius, and layer when player is on ladder
         bool onLadder = Physics2D.OverlapCircle(ladderCheckPos.position, ladderCheckRadius, ladderLayer);
 
-        //if its on ladder above .1, player is climbing 
+        //if on ladder
         if (onLadder && Mathf.Abs(inputY) > 0.1f)
         {
+            //player is climbing and can float
             isClimbing = true;
             rb2d.gravityScale = 0f;
-            rb2d.linearVelocity = new Vector2(rb2d.linearVelocity.x, inputY * climbSpeed);
+
+            //allow left and right movement on the ladder so player doesnt get stuck
+            rb2d.linearVelocity = new Vector2(inputX * walkSpeed, inputY * climbSpeed);
+            return;
         }
-        else if (isClimbing && !onLadder)
+
+        //allow horizontal even when not climbing
+        if (onLadder && isClimbing)
         {
-            //leaving the ladder
+            rb2d.gravityScale = 0f;
+
+            rb2d.linearVelocity = new Vector2(inputX * walkSpeed, 0);
+            return;
+        }
+
+        //if leaving ladder, climbing is false, and gravity returns back to normal
+        if (isClimbing && !onLadder)
+        {
             isClimbing = false;
-            //normal gravity
             rb2d.gravityScale = 4f;
         }
     }
