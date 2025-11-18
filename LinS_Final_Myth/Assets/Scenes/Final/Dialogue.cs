@@ -1,11 +1,9 @@
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
-public class Continue : MonoBehaviour
+public class Dialogue : MonoBehaviour
 {
-    [Header("Dialogue Setup")]
     public TMP_Text dialogueText;
     public string[] dialogueLines;
     private int index = 0;
@@ -13,9 +11,6 @@ public class Continue : MonoBehaviour
     [Header("Next Scene")]
     public GameObject nextPanel;
     public string nextSceneName = "GameScene";
-
-    private bool dialogueFinished = false;
-
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,22 +23,10 @@ public class Continue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        
     }
 
-    public void Next()
-    {
-        if (!dialogueFinished)
-        {
-            ContinueDialogue();
-        }
-        else
-        {
-            ContinueToNext();
-        }
-    }
-
-    void ContinueDialogue()
+    public void ContinueDialogue()
     {
         //if the index list is less than the dialogue length than minus one on click
         if (index < dialogueLines.Length - 1)
@@ -53,24 +36,18 @@ public class Continue : MonoBehaviour
         }
         else
         {
-            //or else finish dialogue is true
-                dialogueFinished = true;
-        }
-    }
+            if (nextPanel != null)
+            {
+                nextPanel.SetActive(true);
+            }
 
-    void ContinueToNext()
-    {
-        //if panel
-        if (nextPanel != null)
-        {
-            nextPanel.SetActive(true);
+            if (!string.IsNullOrEmpty(nextSceneName))
+            {
+                SceneManager.LoadScene(nextSceneName);
+                return;
+            }
             gameObject.SetActive(false);
         }
 
-        //if scene
-        if (!string.IsNullOrEmpty(nextSceneName))
-        {
-            SceneManager.LoadScene(nextSceneName);
-        }
     }
 }
