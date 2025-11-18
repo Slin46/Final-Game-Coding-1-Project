@@ -44,12 +44,13 @@ public class Player : MonoBehaviour
     {
         if (isGrounded())
         {
-            jumpCount = 0;
+            //reset jump and restore gravity when grounded
+            jumpCount = 0;          
         }
 
         if (!isClimbing && rb2d.gravityScale == 0)
         {
-            rb2d.gravityScale = 4f;
+            rb2d.gravityScale = 1f;
         }
 
         Climbing();
@@ -150,7 +151,14 @@ public class Player : MonoBehaviour
         if (isClimbing && !onLadder)
         {
             isClimbing = false;
-            rb2d.gravityScale = 4f;
+          
+
+            //downward nudge
+            rb2d.linearVelocity = new Vector2(rb2d.linearVelocity.x, -0.05f);
+            //reset jump
+           
+
+            Debug.Log("jump count resets");
         }
     }
 }
