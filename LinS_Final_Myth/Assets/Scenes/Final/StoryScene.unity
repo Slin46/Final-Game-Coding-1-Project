@@ -573,7 +573,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -1054.4202, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -596,14 +596,14 @@ RectTransform:
   m_GameObject: {fileID: 407631210}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6098408, y: 12.199564, z: 7.777223}
+  m_LocalScale: {x: 0.9373627, y: 9.611426, z: 6.1272855}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2145137719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 170, y: 382}
+  m_AnchoredPosition: {x: 107, y: 324}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &611821109
@@ -1306,7 +1306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 596, y: 64}
+  m_AnchoredPosition: {x: 596, y: 12}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1225008874
@@ -2053,7 +2053,7 @@ RectTransform:
   m_GameObject: {fileID: 2145137718}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5607884, y: 0.074001, z: 0.11608}
+  m_LocalScale: {x: 0.9332962, y: 0.08642577, z: 0.13556983}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 407631213}
@@ -2062,7 +2062,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 379, y: 47}
+  m_AnchoredPosition: {x: 611, y: 47}
   m_SizeDelta: {x: 1272, y: 716}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2145137720
@@ -2117,9 +2117,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 407631211}
   dialogueLines:
-  - 
-  - hello
-  - bye
+  - .....
+  - Today's my first day after transferring to this school
+  - Everyone's very nice but...
+  - something feels wrong
+  - It's 12:00 p.m., finally time for lunch break
+  - I'm so hungry :(
+  - 'Cellphone rings '
   nextPanel: {fileID: 0}
   nextSceneName: GameScene
 --- !u!1660057539 &9223372036854775807
